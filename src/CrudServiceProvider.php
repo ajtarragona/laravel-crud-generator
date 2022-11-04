@@ -1,8 +1,8 @@
 <?php
 
-namespace Ibex\CrudGenerator;
+namespace Ajtarragona\CrudGenerator;
 
-use Ibex\CrudGenerator\Commands\CrudGenerator;
+use Ajtarragona\CrudGenerator\Commands\CrudGenerator;
 use Illuminate\Support\ServiceProvider;
 
 /**
