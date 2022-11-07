@@ -1,10 +1,10 @@
 @extends('{{layout}}')
 
-@section('template_title')
+@section('{{layoutTitleSection}}')
     {{modelTitle}}
 @endsection
 
-@section('content')
+@section('{{layoutContentSection}}')
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -46,7 +46,6 @@
                                             {{tableBody}}
                                             <td>
                                                 <form action="{{ route('{{modelRoute}}.destroy',${{modelNameLowerCase}}->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('{{modelRoute}}.show',${{modelNameLowerCase}}->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
                                                     <a class="btn btn-sm btn-success" href="{{ route('{{modelRoute}}.edit',${{modelNameLowerCase}}->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
                                                     @csrf
                                                     @method('DELETE')

@@ -1,0 +1,58 @@
+@extends('{{layout}}')
+
+@section('breadcrumb')
+    @breadcrumb([
+        'items'=> [
+            ['name'=>  __('{{modelNamePluralLowerCase}}') ]
+        ]
+    ])
+@endsection
+@section('actions')
+    <a href="{{ route('{{modelRoute}}.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+        @icon('plus') {{ __('Create New') }}
+    </a>
+@endsection
+
+@section('{{layoutTitleSection}}')
+    {{modelTitle}}
+@endsection
+
+@section('{{layoutContentSection}}')
+    <section class="content mt-3">
+        <div class="row ">
+            <div class="col-sm-12">
+
+                
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover  border bg-white">
+                            <thead class="thead">
+                                <tr>
+                                    <th>ID</th>
+                                    {{tableHeader}}
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (${{modelNamePluralLowerCase}} as ${{modelNameLowerCase}})
+                                    <tr>
+                                        <td>{{ ++$i }}</td>
+                                        {{tableBody}}
+                                        <td class="text-right">
+                                            <form action="{{ route('{{modelRoute}}.destroy',${{modelNameLowerCase}}->id) }}" data-confirm="true" method="POST" class="tgn-form d-inline-block">
+                                                <a class="btn btn-xs btn-light" href="{{ route('{{modelRoute}}.edit',${{modelNameLowerCase}}->id) }}">@icon('edit') Edit</a>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-xs">@icon('trash') Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {!! ${{modelNamePluralLowerCase}}->links() !!}
+            </div>
+        </div>
+    </section>
+@endsection

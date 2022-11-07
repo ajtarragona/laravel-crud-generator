@@ -1,0 +1,8 @@
+    @input([
+        'label'=> '{{title}}',
+        'name'=> '{{column}}',
+        'value'=> ${{modelNameLowerCase}}->{{column}},
+        'class' => ($errors->has('{{column}}') ? ' is-invalid' : ''),
+        'placeholder' => '{{title}}'
+    ])
+    {{-- {!! $errors->first('{{column}}', '<div class="invalid-feedback">:message</div>') !!} --}}

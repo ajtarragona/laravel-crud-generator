@@ -1,0 +1,53 @@
+@extends('{{layout}}')
+
+@section('{{layoutTitleSection}}')
+    Update {{modelTitle}}
+@endsection
+
+@section('breadcrumb')
+    @breadcrumb([
+        'items'=> [
+            ['name'=>  __('{{modelNamePluralLowerCase}}') , 'url'=> route('{{modelRoute}}.index') ],
+            ['name'=>  'Update {{modelTitle}}' ],
+        ]
+    ])
+@endsection
+
+     
+@section('actions')
+	<label for="form-submit-button" role="button" class="btn btn-primary btn-sm" tabindex="0">
+	  @icon('save') Save
+	</label>
+	
+
+
+	<form method="post" action="{{ route('{{modelRoute}}.destroy',${{modelNameLowerCase}}->id) }}" data-confirm="true" class="tgn-form d-inline-block">
+		@csrf
+		<input type="hidden" name="_method" value="DELETE">
+
+			<button class="btn btn-danger btn-sm" type="submit"> @icon('trash') Delete</button>
+	</form>
+@endsection
+
+@section('{{layoutContentSection}}')
+    <section class="content mt-3">
+        <div class="row">
+            <div class="col-md-12">
+
+                
+                <div class="card card-default">
+                    <div class="card-body">
+                    
+                        <form method="POST" action="{{ route('{{modelRoute}}.update', ${{modelNameLowerCase}}->id) }}"  role="form" enctype="multipart/form-data">
+                            {{ method_field('PATCH') }}
+                            @csrf
+
+                            @include('{{modelView}}.form')
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection

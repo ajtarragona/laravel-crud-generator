@@ -38,8 +38,16 @@ return [
     |
     */
 
-    'layout' => 'layouts.app',
-    'routes_prefix' => false,
+    'route' => [
+        'prefix' =>null,
+        'name_prefix' =>null,
+    ],
+    'views' => [
+        'layout' => 'layouts.app',
+        'layoutContentSection' => 'content',
+        'layoutTitleSection' => 'title',
+        'path'=> null,
+    ],
     'model' => [
         'namespace' => 'App\Models',
 

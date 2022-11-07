@@ -2,6 +2,7 @@
 
 namespace {{controllerNamespace}};
 
+use App\Http\Controllers\Controller;
 use {{modelNamespace}}\{{modelName}};
 use Illuminate\Http\Request;
 

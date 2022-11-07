@@ -38,6 +38,7 @@ abstract class GeneratorCommand extends Command
         'deleted_at',
     ];
 
+    protected $stub_templates =['default','tailwind','clean','tarragona'];
     /**
      * Table name from argument.
      *
@@ -80,6 +81,11 @@ abstract class GeneratorCommand extends Command
      */
     protected $layout = 'layouts.app';
 
+    protected $routePrefix = null;
+    protected $routeNamePrefix = null;
+    protected $viewPath = null;
+    protected $layoutTitleSection = 'title';
+    protected $layoutContentSection = 'content';
     /**
      * Custom Options name
      *
@@ -102,7 +108,12 @@ abstract class GeneratorCommand extends Command
         $this->unwantedColumns = config('crud.model.unwantedColumns', $this->unwantedColumns);
         $this->modelNamespace = config('crud.model.namespace', $this->modelNamespace);
         $this->controllerNamespace = config('crud.controller.namespace', $this->controllerNamespace);
-        $this->layout = config('crud.layout', $this->layout);
+        $this->layout = config('crud.views.layout', $this->layout);
+        $this->routePrefix = config('crud.route.prefix', null);
+        $this->routeNamePrefix = config('crud.route.name_prefix', null);
+        $this->viewPath = config('crud.views.path', null);
+        $this->layoutTitleSection = config('crud.views.layouTitleSection', 'title');
+        $this->layoutContentSection = config('crud.views.layoutContentSection', 'content');
     }
 
     /**
@@ -166,8 +177,9 @@ abstract class GeneratorCommand extends Command
     protected function getStub($type, $content = true)
     {
         $stub_path = config('crud.stub_path', 'default');
-        if ($stub_path == 'default') {
-            $stub_path = __DIR__ . '/../stubs/';
+
+        if (in_array($stub_path, $this->stub_templates)){
+            $stub_path = __DIR__ . '/../stubs/'.$stub_path;
         }
 
         $path = Str::finish($stub_path, '/') . "{$type}.stub";
@@ -201,7 +213,7 @@ abstract class GeneratorCommand extends Command
      */
     protected function _getControllerPath($name)
     {
-        return app_path($this->_getNamespacePath($this->controllerNamespace) . "{$name}Controller.php");
+        return $this->makeDirectory(app_path($this->_getNamespacePath($this->controllerNamespace) . "{$name}Controller.php"));
     }
 
     /**
@@ -247,6 +259,8 @@ abstract class GeneratorCommand extends Command
     {
         $name = Str::kebab($this->name);
 
+        // viewPath
+        if($this->viewPath) $name = $this->viewPath."/".$name;
         return $this->makeDirectory(resource_path("/views/{$name}/{$view}.blade.php"));
     }
 
@@ -260,14 +274,16 @@ abstract class GeneratorCommand extends Command
         return [
             '{{layout}}' => $this->layout,
             '{{modelName}}' => $this->name,
+            '{{layoutTitleSection}}' => $this->layoutTitleSection,
+            '{{layoutContentSection}}' => $this->layoutContentSection,
             '{{modelTitle}}' => Str::title(Str::snake($this->name, ' ')),
             '{{modelNamespace}}' => $this->modelNamespace,
             '{{controllerNamespace}}' => $this->controllerNamespace,
             '{{modelNamePluralLowerCase}}' => Str::camel(Str::plural($this->name)),
             '{{modelNamePluralUpperCase}}' => ucfirst(Str::plural($this->name)),
             '{{modelNameLowerCase}}' => Str::camel($this->name),
-            '{{modelRoute}}' => $this->options['route'] ?? Str::kebab(Str::plural($this->name)),
-            '{{modelView}}' => Str::kebab($this->name),
+            '{{modelRoute}}' => ($this->routeNamePrefix?($this->routeNamePrefix."."):"") . ($this->options['route'] ?? Str::kebab(Str::plural($this->name))),
+            '{{modelView}}' => ($this->viewPath?($this->viewPath."."):"") . Str::kebab($this->name),
         ];
     }
 

@@ -1,10 +1,10 @@
 @extends('{{layout}}')
 
-@section('template_title')
+@section('{{layoutTitleSection}}')
     {{ ${{modelNameLowerCase}}->name ?? 'Show {{modelTitle}}' }}
 @endsection
 
-@section('content')
+@section('{{layoutContentSection}}')
     <section class="content container-fluid">
         <div class="row">
             <div class="col-md-12">

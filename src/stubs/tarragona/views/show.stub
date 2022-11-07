@@ -1,0 +1,36 @@
+@extends('{{layout}}')
+
+@section('{{layoutTitleSection}}')
+    {{ ${{modelNameLowerCase}}->name ?? 'Show {{modelTitle}}' }}
+@endsection
+
+@section('breadcrumb')
+    @breadcrumb([
+        'items'=> [
+            ['name'=>  __('{{modelNamePluralLowerCase}}') , 'url'=> route('{{modelRoute}}.index') ],
+            ['name'=>  'Show {{modelTitle}}' ],
+        ]
+    ])
+@endsection
+@section('{{layoutContentSection}}')
+    <section class="content mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="float-left">
+                            <span class="card-title">Show {{modelTitle}}</span>
+                        </div>
+                        <div class="float-right">
+                            <a class="btn btn-primary" href="{{ route('{{modelRoute}}.index') }}"> Back</a>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        {{viewRows}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
