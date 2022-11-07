@@ -3,6 +3,7 @@
 namespace Ajtarragona\CrudGenerator;
 
 use Ajtarragona\CrudGenerator\Commands\CrudGenerator;
+use Ajtarragona\CrudGenerator\Commands\ModelGenerator;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -19,6 +20,7 @@ class CrudServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                ModelGenerator::class,
                 CrudGenerator::class,
             ]);
         }

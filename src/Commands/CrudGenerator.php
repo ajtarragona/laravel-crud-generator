@@ -16,8 +16,8 @@ class CrudGenerator extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'make:crud
-                            {name : Table name}
+    protected $signature = 'crud:make
+                            {name : Model name}
                             {--route= : Custom route name}';
 
     /**
@@ -25,7 +25,7 @@ class CrudGenerator extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create bootstrap CRUD operations';
+    protected $description = 'Create CRUD Controller and views from Model';
 
     /**
      * Execute the console command.
@@ -41,19 +41,22 @@ class CrudGenerator extends GeneratorCommand
         $this->table = $this->getNameInput();
 
         // If table not exist in DB return
-        if (!$this->tableExists()) {
-            $this->error("`{$this->table}` table not exist");
+        // if (!$this->tableExists()) {
+        //     $this->error("`{$this->table}` table not exist");
 
-            return false;
-        }
+        //     return false;
+        // }
 
         // Build the class name from table name
         $this->name = $this->_buildClassName();
 
+        $modelPath = $this->_getModelPath($this->name);
+        dd($modelPath);
+
         // Generate the crud
         $this->buildOptions()
             ->buildController()
-            ->buildModel()
+            // ->buildModel()
             ->buildViews();
 
         $this->info('Created Successfully.');
