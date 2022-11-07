@@ -39,7 +39,7 @@ return [
     */
 
     'layout' => 'layouts.app',
-
+    'routes_prefix' => false,
     'model' => [
         'namespace' => 'App\Models',
 

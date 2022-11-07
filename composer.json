@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ibex\\CrudGenerator\\": "src/"
+            "Ajtarragona\\CrudGenerator\\": "src/"
         }
     },
     "extra": {
