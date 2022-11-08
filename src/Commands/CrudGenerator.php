@@ -3,6 +3,8 @@
 namespace Ajtarragona\CrudGenerator\Commands;
 
 use Illuminate\Support\Str;
+use \Artisan;
+
 
 /**
  * Class CrudGenerator.
@@ -16,8 +18,8 @@ class CrudGenerator extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'crud:make
-                            {name : Model name}
+    protected $signature = 'make:crud
+                            {name : Table name}
                             {--route= : Custom route name}';
 
     /**
@@ -25,7 +27,7 @@ class CrudGenerator extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create CRUD Controller and views from Model';
+    protected $description = 'Create bootstrap CRUD operations';
 
     /**
      * Execute the console command.
@@ -41,22 +43,19 @@ class CrudGenerator extends GeneratorCommand
         $this->table = $this->getNameInput();
 
         // If table not exist in DB return
-        // if (!$this->tableExists()) {
-        //     $this->error("`{$this->table}` table not exist");
+        if (!$this->tableExists()) {
+            $this->error("`{$this->table}` table not exist");
 
-        //     return false;
-        // }
+            return false;
+        }
 
         // Build the class name from table name
         $this->name = $this->_buildClassName();
 
-        $modelPath = $this->_getModelPath($this->name);
-        dd($modelPath);
-
         // Generate the crud
         $this->buildOptions()
             ->buildController()
-            // ->buildModel()
+            ->buildModel()
             ->buildViews();
 
         $this->info('Created Successfully.');
@@ -92,6 +91,7 @@ class CrudGenerator extends GeneratorCommand
         return $this;
     }
 
+
     /**
      * @return $this
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
@@ -99,13 +99,15 @@ class CrudGenerator extends GeneratorCommand
      */
     protected function buildModel()
     {
-        $modelPath = $this->_getModelPath($this->name);
 
+        $modelPath = $this->_getModelPath($this->name);
+        // dd($this->name);
         if ($this->files->exists($modelPath) && $this->ask('Already exist Model. Do you want overwrite (y/n)?', 'y') == 'n') {
             return $this;
         }
 
-        $this->info('Creating Model ...');
+        // $this->info('Creating Model ...');
+        // Artisan::call('code:models',['--table'=> $this->table]);
 
         // Make the models attributes and replacement
         $replace = array_merge($this->buildReplacements(), $this->modelReplacements());

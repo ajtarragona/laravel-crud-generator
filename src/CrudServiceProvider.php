@@ -20,7 +20,6 @@ class CrudServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                ModelGenerator::class,
                 CrudGenerator::class,
             ]);
         }
