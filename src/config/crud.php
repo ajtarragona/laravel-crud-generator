@@ -39,14 +39,14 @@ return [
     */
 
     'route' => [
-        'prefix' =>null,
-        'name_prefix' =>null,
+        'prefix' =>null, // prefix of the route urls
+        'name_prefix' =>null, // prefix of the route names
     ],
     'views' => [
         'layout' => 'layouts.app',
         'layoutContentSection' => 'content',
         'layoutTitleSection' => 'title',
-        'path'=> null,
+        'path'=> null,  //define the path where views where be stored (relative to from resources/views) with dot separation
     ],
     'model' => [
         'namespace' => 'App\Models',

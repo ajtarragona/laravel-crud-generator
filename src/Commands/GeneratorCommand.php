@@ -260,7 +260,7 @@ abstract class GeneratorCommand extends Command
         $name = Str::kebab($this->name);
 
         // viewPath
-        if($this->viewPath) $name = $this->viewPath."/".$name;
+        if($this->viewPath) $name = str_replace(".","/",$this->viewPath)."/".$name;
         return $this->makeDirectory(resource_path("/views/{$name}/{$view}.blade.php"));
     }
 
